@@ -74,15 +74,4 @@ module ClassIndexer
     ast.get_list
   end
 
-  # Find ruby files
-  files  = Dir.glob("**/*.rb")
-  output = {}
-
-  # Parse every file we found
-  files.each do |input_file|
-    output[input_file] = ClassIndexer::process_file(input_file)
-  end
-
-  # Output json (pretty format)
-  jj output
 end
