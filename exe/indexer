@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+require 'class_indexer'
