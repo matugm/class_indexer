@@ -72,6 +72,8 @@ module ClassIndexer
     ast = Processor.new
     ast.process(exp)
     ast.get_list
+  rescue Parser::SyntaxError
+    $stderr.puts "Syntax Error found while parsing #{file}"
   end
 
 end
