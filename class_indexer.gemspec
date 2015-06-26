@@ -13,8 +13,8 @@ Gem::Specification.new do |spec|
     spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com' to prevent pushes to rubygems.org, or delete to allow pushes to any server."
   end
 
-  spec.summary       = %q{Reads ruby file in the current directory to produce and index of methods and classes}
-  spec.description   = %q{Index all methods and output json}
+  spec.summary       = %q{Index all methods and output json.}
+  spec.description   = %q{Reads ruby files in the current directory to produce a json index of methods and classes. Use the 'indexer' command to run.}
   spec.homepage      = "http://www.blackbytes.info"
   spec.license       = "MIT"
 
