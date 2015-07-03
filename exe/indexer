@@ -3,7 +3,7 @@
 require 'class_indexer'
 
 # Find ruby files
-files  = Dir.glob("**/*.rb")
+files  = Dir.glob('**/*.rb')
 output = {}
 
 # Parse every file we found
@@ -12,4 +12,9 @@ files.each do |input_file|
 end
 
 # Output json (pretty format)
-jj output
+
+if ARGV[0] == '-p'
+  jj output
+else
+  j output
+end

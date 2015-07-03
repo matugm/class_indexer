@@ -23,7 +23,7 @@ module ClassIndexer
         @class_list[@current_class] = []
       end
 
-      @class_list[@current_class] << {name: method_name.to_s, line: line_num}
+      @class_list[@current_class] << { name: method_name.to_s, line: line_num }
     end
 
     def on_class(node)
@@ -51,11 +51,12 @@ module ClassIndexer
       add_method(method_name, line_num)
     end
 
+    # Constant definition
     def on_const(node)
     end
 
+    # Method call
     def on_send(node)
-      # method call
     end
 
     def on_begin(node)
@@ -73,7 +74,7 @@ module ClassIndexer
     ast.process(exp)
     ast.get_list
   rescue Parser::SyntaxError
-    $stderr.puts "Syntax Error found while parsing #{file}"
+    warn "Syntax Error found while parsing #{file}"
   end
 
 end
