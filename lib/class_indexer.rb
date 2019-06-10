@@ -5,24 +5,19 @@ require 'json'
 
 module ClassIndexer
   class Processor < AST::Processor
+    attr_reader :class_list
+
     def initialize
       reset_class
-      @class_list = {}
+
+      @class_list = Hash.new { |h,k| h[k] = [] }
     end
 
     def reset_class
       @current_class = "main"
     end
 
-    def get_list
-      @class_list
-    end
-
     def add_method(method_name, line_num)
-      unless @class_list.has_key? @current_class
-        @class_list[@current_class] = []
-      end
-
       @class_list[@current_class] << { name: method_name.to_s, line: line_num }
     end
 
@@ -32,6 +27,7 @@ module ClassIndexer
 
       @current_class = class_name.to_s
       node.children.each { |c| process(c) }
+
       reset_class
     end
 
@@ -64,17 +60,18 @@ module ClassIndexer
     end
 
     def handler_missing(node)
-      #puts "missing #{node.type}"
     end
   end
 
   def self.process_file(file)
     exp = Parser::CurrentRuby.parse(File.read(file))
     ast = Processor.new
+
     ast.process(exp)
-    ast.get_list
+
+    ast.class_list
   rescue Parser::SyntaxError
     warn "Syntax Error found while parsing #{file}"
   end
-
 end
+
