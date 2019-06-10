@@ -22,13 +22,35 @@ module ClassIndexer
     end
 
     def on_class(node)
-      line_num   = node.children[0].loc.line
-      class_name = node.children[0].children[1]
+      class_name = node.children[0].children[1].to_s
 
-      @current_class = class_name.to_s
+      if @current_class == "main"
+        @current_class = class_name
+      else
+        @current_class << "::" + class_name
+      end
+
       node.children.each { |c| process(c) }
 
-      reset_class
+      if @current_class.include?("::")
+        @current_class.sub!("::" + class_name, "")
+      else
+        reset_class
+      end
+    end
+
+    def on_module(node)
+      module_name = node.children[0].children[1].to_s
+
+      if @current_class == "main"
+        @current_class = module_name
+      else
+        @current_class.prepend(module_name + "::")
+      end
+
+      node.children.each { |c| process(c) }
+
+      @current_class.sub!(module_name, "")
     end
 
     # Instance methods
@@ -47,19 +69,8 @@ module ClassIndexer
       add_method(method_name, line_num)
     end
 
-    # Constant definition
-    def on_const(node)
-    end
-
-    # Method call
-    def on_send(node)
-    end
-
     def on_begin(node)
       node.children.each { |c| process(c) }
-    end
-
-    def handler_missing(node)
     end
   end
 
